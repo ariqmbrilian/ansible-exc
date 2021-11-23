@@ -1,0 +1,11 @@
+---
+- hosts: all
+  become: true
+
+  tasks:
+    - name: "Create directory"
+      file:
+        path: "/files-1"
+        state: directory
+        owner: "root"
+        mode: 0777
