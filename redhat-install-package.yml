@@ -1,0 +1,10 @@
+---
+- hosts: all
+  tasks:
+  - name: Package installation
+    dnf:
+      name:
+        - sysstat
+        - httpd
+        - mariadb-server
+      state: latest
