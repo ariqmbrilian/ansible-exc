@@ -9,7 +9,9 @@
         name: "*"
         state: latest
         update_cache: yes
-
+     - name: Remove useless packages from the cache
+      apt:
+       autoclean: yes
     - name: Display the last line of the previous task to check the stats
       debug:
         msg:  "{{updatesys.stdout_lines|last}}"
