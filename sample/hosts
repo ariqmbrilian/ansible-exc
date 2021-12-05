@@ -1,0 +1,9 @@
+[lb]
+frontend1.example.com
+
+[webservers]
+app1.example.com
+app2.example.com
+
+[db]
+appdb1.example.com
