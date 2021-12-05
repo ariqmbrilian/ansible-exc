@@ -15,3 +15,7 @@ create user
 ```
 ansible all -m user -a "name=devops" -b
 ```
+check syntax
+```
+ansible-playbook --syntax-check user.yml
+```
