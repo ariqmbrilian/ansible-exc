@@ -11,3 +11,7 @@ show information
 ```
 ansible vm1 -m setup
 ```
+create user
+```
+ansible all -m user -a "name=devops" -b
+```
