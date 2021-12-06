@@ -19,3 +19,7 @@ check syntax
 ```
 ansible-playbook --syntax-check user.yml
 ```
+check uptime
+```
+ansible webservers -m command -a "uptime" -o
+```
