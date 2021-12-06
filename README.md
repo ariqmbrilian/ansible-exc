@@ -36,3 +36,7 @@ disable web service
 ansible webservers -m service -a "name=httpd state=stopped" -b
 
 ```
+remove apache
+```
+ansible webservers -m yum -a "name=httpd state=absent" -b
+```
