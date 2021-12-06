@@ -31,3 +31,8 @@ ansible start httpd adhoc command
 ```
 ansible webservers -m service -a "name=httpd state=started" -b
 ```
+disable web service
+```
+ansible webservers -m service -a "name=httpd state=stopped" -b
+
+```
