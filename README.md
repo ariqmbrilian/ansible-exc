@@ -23,3 +23,7 @@ check uptime
 ```
 ansible webservers -m command -a "uptime" -o
 ```
+install apache adhoc command
+```
+ansible webservers -m yum -a "name=httpd state=present" -b -o
+```
