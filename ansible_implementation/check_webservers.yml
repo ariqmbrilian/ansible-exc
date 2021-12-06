@@ -1,0 +1,4 @@
+- hosts: webservers
+  tasks:
+  - name: Check connectivity
+    ping:
