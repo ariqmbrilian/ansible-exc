@@ -27,3 +27,7 @@ install apache adhoc command
 ```
 ansible webservers -m yum -a "name=httpd state=present" -b -o
 ```
+ansible start httpd adhoc command
+```
+ansible webservers -m service -a "name=httpd state=started" -b
+```
