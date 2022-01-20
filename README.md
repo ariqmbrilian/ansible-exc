@@ -2,6 +2,7 @@
 ping 
 ```
 ansible all -m ping
+ansible -i [inventory] [groups] -m ping
 ```
 show hostname 
 ```
