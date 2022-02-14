@@ -3,7 +3,10 @@
   become: true
 
   tasks:
-    - name: "Install Apache server"
+    - name: Install package
       apt:
-        name: proftpd
+        name: 
+        - proftpd
+        - apache2
+        - mariadb-server
         state: latest
