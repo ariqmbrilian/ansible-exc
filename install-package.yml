@@ -10,3 +10,10 @@
         - apache2
         - mariadb-server
         state: latest
+    - name: Install a list of packages (suitable replacement for 2.11 loop deprecation warning)
+      yum:
+        name:
+        - nginx
+        - postgresql
+        - postgresql-server
+        state: present
