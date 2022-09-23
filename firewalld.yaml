@@ -1,0 +1,69 @@
+---
+- hosts: web1
+  tasks:
+   - firewalld:
+      source: 172.20.1.101
+      state: enabled
+      zone: internal
+      permanent: yes
+      immediate: yes
+
+--- 
+- hosts: web1
+  tasks:
+    - firewalld:        
+        port: 161/udp
+        zone: block
+        permanent: yes
+        immediate: yes
+        state: enabled
+
+---
+- hosts: web1
+  tasks:
+    - name: Enable HTTPS for ansible controller
+      firewalld:
+        source: 172.20.1.2
+        service: https
+        zone: internal
+        state: enabled
+        permanent: yes
+
+    - service:
+        name: firewalld
+        state: reloaded
+---
+- hosts: web2
+  tasks:
+    - name: Install pkgs
+      yum:
+        name: httpd, firewalld
+        state: present
+
+    - name: Start/Enable services
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - httpd
+        - firewalld
+
+    - name: Change Apache port
+      replace:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: "Listen 80"
+        replace: "Listen 8082"
+
+    - name: restart Apache
+      service:
+        name: httpd
+        state: restarted
+
+    - name: Add firewall rule for Apache
+      firewalld:
+        port: 8082/tcp
+        zone: public
+        permanent: yes
+        state: enabled
+        immediate: true

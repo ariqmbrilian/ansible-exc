@@ -1,0 +1,20 @@
+---
+- name: Start httpd
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Start httpd service
+      service:
+        name: httpd
+        state: started
+
+---
+- name: Start httpd
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Start httpd service
+      service:
+        name: httpd
+        state: started
+        enabled: true

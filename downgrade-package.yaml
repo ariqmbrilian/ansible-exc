@@ -1,0 +1,5 @@
+---
+- hosts: all
+  tasks:
+    - yum: name=sudo state=latest
+    - yum: name=vsftpd-2.2.2 state=present allow_downgrade=yes
