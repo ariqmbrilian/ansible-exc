@@ -1,0 +1,18 @@
+windows:
+    hosts:
+        192.168.254.129:
+    vars:
+        ansible_user: User
+        ansible_password: 123123
+        ansible_connection: winrm
+        ansible_winrm_server_cert_validation: ignore
+        ansible_port: 5985
+
+ubuntu:
+    hosts:
+        10.10.254.169:
+        10.10.254.172:
+        10.10.254.123:
+    vars:
+        ansible_user: user
+        ansible_sudo_pass: 123123

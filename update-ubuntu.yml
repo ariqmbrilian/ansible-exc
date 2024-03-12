@@ -1,0 +1,14 @@
+---
+- hosts: ubuntu
+  gather_facts: no
+  become: yes
+  tasks:
+    - ansible.builtin.apt:
+        name: "*"
+        state: latest
+
+    - ansible.builtin.apt:
+        update_cache: yes
+
+    - ansible.builtin.apt:
+        autoremove: yes

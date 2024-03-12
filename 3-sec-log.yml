@@ -1,0 +1,31 @@
+---
+- hosts: windows
+  gather_facts: no
+  tasks:
+    - ansible.windows.win_service:
+        name: termservice
+        start_mode: manual
+        state: stopped
+        force_dependent_services: yes
+
+    - ansible.windows.win_file:
+        path: C:\uptime.txt
+        state: touch
+
+    - community.windows.win_scheduled_task:
+        name: LogUptime
+        description: open command prompt
+        actions:
+        - path: cmd.exe
+          arguments: /c hostname
+        triggers:
+        - type: registration
+          repetition:
+            interval: PT1M
+            duration: PT5M
+            stop_at_duration_end: yes
+
+
+
+# $uptime = (get-date) - (gcim Win32_OperatingSystem).LastBootUpTime
+# Write-Output "$($uptime.days) days $($uptime.hours) hours $($uptime.minutes) minutes $($uptime.seconds) seconds" >> uptime.txt

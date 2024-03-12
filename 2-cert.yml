@@ -1,0 +1,10 @@
+---
+- hosts: windows
+  gather_facts: no
+  tasks:
+    - ansible.windows.win_feature:
+       name: adcs-cert-authority
+       state: present
+       include_management_tools: true
+    - ansible.windows.win_shell: |
+        Install-ADCSCertificateAuthority -CAType EnterpriseRootCA -CACommonName "Applix Root CA" -CASubjectName "CN=My Root CA" -CATemplateName "RootCA" -CASignatureAlgorithm SHA256RSA -CAGenerateNewKey -CAKeyLength 2048 -CAValidityPeriodYears 10 -CAKeyExportable $true -CAKeyStorageProviderName "Microsoft Software Key Storage Provider" -CAKeyStorageProviderType 75 -CAKeyStorageFlags 0 -CAKeyStorageKeySpec 1 -CAKeyStorageExportable $true -CAKeyStorageMachineKeyset $true -CAKeyStorageProtectedToCurrentUser $false -CAKeyStorageCspName "Microsoft Enhanced RSA and AES Cryptographic Provider" -CAKeyStorageCspType 24 -CAKeyStorageCspFlags 0 -CAKeyStorageCspKeyContainerName "My Root CA" -CAKeyStorageCspKeyNumber 2 -CAKeyStorageCspKeyLength 2048 -CAKeyStorageCspKeySpec 1 -CAKeyStorageCspExportable $true -CAKeyStorageCspMachineKeyset $true -CAKeyStorageCspProtectedToCurrentUser $false -CAKeyStorageCspProviderName "Microsoft Enhanced RSA and AES Cryptographic Provider" -CAKeyStorageCspProviderType 24 -CAKeyStorageCspProviderFlags 0 -CAKeyStorageCspProviderKeyContainerName "My Root CA" -CAKeyStorageCspProviderKeyNumber 2 -CAKeyStorageCspProviderKeyLength 2048 -CAKeyStorageCspProviderKeySpec 1 -CAKeyStorageCspProviderExportable $true -CAKeyStorageCspProviderMachineKeyset $true -CAKeyStorageCspProviderProtectedToCurrentUser $false -CAKeyStorageCspProviderType 24 -CAKeyStorageCspProviderFlags 0 -CAKeyStorageCspProviderKeyContainerName "My Root CA" -CAKeyStorageCspProviderKeyNumber 2 -CAKeyStorageCspProviderKeyLength 2048 -CAKeyStorageCspProviderKeySpec 1 -CAKeyStorageCspProviderExportable $true -CAKeyStorageCspProviderMachineKeyset $true -CAKeyStorageCspProviderProtectedToCurrentUser $false -CAKeyStorageCspProviderType 24 -CAKeyStorageCspProviderFlags 0 -CAKeyStorageCspProviderKeyContainerName "

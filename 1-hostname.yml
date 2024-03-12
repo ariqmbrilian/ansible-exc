@@ -1,0 +1,16 @@
+---
+- hosts: windows
+  gather_facts: no
+  tasks:
+    - ansible.windows.win_hostname:
+        name: "{{ item }}"
+      register: res
+      loop:
+        - WIN1
+        - WIN2
+        - WIN3
+        - WIN4
+        - WIN5
+
+    - ansible.windows.win_reboot:
+      when: res.reboot_required
