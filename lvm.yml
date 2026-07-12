@@ -1,1 +1,32 @@
 ---
+- name: Create an LVM logical volume and mount it
+  hosts: all
+  become: true
+  vars:
+    disk: /dev/sdb
+    vg: data_vg
+    lv: data_lv
+    mount_point: /data
+  tasks:
+    - name: Create the volume group on the disk
+      community.general.lvg:
+        vg: "{{ vg }}"
+        pvs: "{{ disk }}"
+
+    - name: Create the logical volume (all free space)
+      community.general.lvol:
+        vg: "{{ vg }}"
+        lv: "{{ lv }}"
+        size: 100%FREE
+
+    - name: Create an ext4 filesystem on it
+      community.general.filesystem:
+        fstype: ext4
+        dev: "/dev/{{ vg }}/{{ lv }}"
+
+    - name: Mount it and add to /etc/fstab
+      ansible.posix.mount:
+        path: "{{ mount_point }}"
+        src: "/dev/{{ vg }}/{{ lv }}"
+        fstype: ext4
+        state: mounted

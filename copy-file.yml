@@ -5,9 +5,10 @@
   
   tasks:
     - name: execute copy file
-      src: /data/file1
-      dest: /data/file2
-      owner: root
-      group: root
-      mode: '777'
-  
+      copy:
+        src: /data/file1
+        dest: /data/file2
+        owner: root
+        group: root
+        mode: '0644'
+

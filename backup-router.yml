@@ -1,1 +1,14 @@
 ---
+# Backs up the running config of Cisco IOS network devices.
+# Target hosts need ansible_network_os=ios and ansible_connection=network_cli
+# set in the inventory (not a normal SSH/Linux connection).
+- name: Backup router running-config
+  hosts: routers
+  gather_facts: false
+  tasks:
+    - name: Save running-config to ./backup/<hostname>_config.txt
+      cisco.ios.ios_config:
+        backup: true
+        backup_options:
+          filename: "{{ inventory_hostname }}_config.txt"
+          dir_path: ./backup

@@ -1,1 +1,15 @@
 ---
+- name: Set the message of the day
+  hosts: all
+  become: true
+  tasks:
+    - name: Write /etc/motd
+      copy:
+        dest: /etc/motd
+        content: |
+          ******************************************************
+          Authorized access only. Managed by Ansible.
+          ******************************************************
+        owner: root
+        group: root
+        mode: '0644'

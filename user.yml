@@ -1,1 +1,12 @@
 ---
+- name: Create a user
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure the 'devops' user exists
+      user:
+        name: devops
+        groups: wheel        # add to a sudo-capable group (use 'sudo' on Debian/Ubuntu)
+        shell: /bin/bash
+        create_home: true
+        state: present
