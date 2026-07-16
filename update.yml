@@ -1,7 +1,0 @@
----
-- hosts: windows
-  gather_facts: no
-  tasks:
-    -  ansible.windows.win_updates:
-        category_names: "*"
-        reboot: yes

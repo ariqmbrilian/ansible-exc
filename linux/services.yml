@@ -1,0 +1,71 @@
+---
+# Managing services with the `service` module and firewall rules with `firewalld`.
+
+- name: Service states (start / stop / restart / reload / enable)
+  hosts: all
+  become: true
+  tasks:
+    - name: Start a service (and enable at boot)
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Stop a service
+      service:
+        name: httpd
+        state: stopped
+
+    - name: Restart a service
+      service:
+        name: httpd
+        state: restarted
+
+    - name: Reload a service (re-read config, no downtime)
+      service:
+        name: httpd
+        state: reloaded
+
+    - name: Enable at boot without changing current state
+      service:
+        name: httpd
+        enabled: yes
+
+    - name: Restart a service for a specific interface (args)
+      service:
+        name: network
+        state: restarted
+        args: eth0
+
+- name: Firewalld rules
+  hosts: web1
+  become: true
+  tasks:
+    - name: Allow a source IP into a zone
+      firewalld:
+        source: 172.20.1.101
+        zone: internal
+        state: enabled
+        permanent: yes
+        immediate: yes
+
+    - name: Block a port
+      firewalld:
+        port: 161/udp
+        zone: block
+        state: enabled
+        permanent: yes
+        immediate: yes
+
+    - name: Allow a service (https) from a source
+      firewalld:
+        source: 172.20.1.2
+        service: https
+        zone: internal
+        state: enabled
+        permanent: yes
+
+    - name: Reload firewalld to apply
+      service:
+        name: firewalld
+        state: reloaded

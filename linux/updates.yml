@@ -1,0 +1,40 @@
+---
+# Patching hosts. Use the group/module that matches the distro.
+
+- name: Update Ubuntu/Debian hosts (apt)
+  hosts: ubuntu
+  become: yes
+  gather_facts: no
+  tasks:
+    - name: Upgrade all packages
+      apt:
+        name: "*"
+        state: latest
+        update_cache: yes
+
+    - name: Remove cached package files
+      apt:
+        autoclean: yes
+
+    - name: Remove packages no longer needed
+      apt:
+        autoremove: yes
+
+    - name: Reboot if required
+      reboot:
+        test_command: uptime
+
+- name: Update RHEL/CentOS hosts (yum)
+  hosts: redhat
+  become: yes
+  tasks:
+    - name: Update all installed packages
+      yum:
+        name: '*'
+        state: latest
+        update_cache: yes
+        update_only: yes
+
+    - name: Remove packages no longer needed
+      yum:
+        autoremove: yes

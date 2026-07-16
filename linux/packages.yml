@@ -1,0 +1,60 @@
+---
+# Installing / removing / downgrading packages on Linux.
+# apt = Debian/Ubuntu, yum/dnf = RHEL/CentOS/Fedora.
+
+- name: Install a list of packages (Debian and RedHat examples)
+  hosts: all
+  become: true
+  tasks:
+    - name: Install packages with apt (Debian/Ubuntu)
+      apt:
+        name:
+          - proftpd
+          - apache2
+          - mariadb-server
+        state: latest
+
+    - name: Install packages with yum (RHEL/CentOS)
+      yum:
+        name:
+          - nginx
+          - postgresql
+          - postgresql-server
+        state: present
+
+    - name: Install packages with dnf (Fedora / newer RHEL)
+      dnf:
+        name:
+          - sysstat
+          - httpd
+          - mariadb-server
+        state: latest
+
+- name: Downgrade / pin a specific version
+  hosts: all
+  become: true
+  tasks:
+    - name: Make sure sudo is at latest
+      yum:
+        name: sudo
+        state: latest
+
+    - name: Install a specific (older) version, allowing downgrade
+      yum:
+        name: vsftpd-2.2.2
+        state: present
+        allow_downgrade: yes
+
+- name: Install a package and start its service in one play
+  hosts: web1
+  become: true
+  tasks:
+    - name: Install firewalld
+      yum:
+        name: firewalld
+        state: present
+
+    - name: Start firewalld
+      service:
+        name: firewalld
+        state: started

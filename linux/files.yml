@@ -1,0 +1,79 @@
+---
+# Working with files and directories: copy, create, edit-in-place, archive, motd.
+
+- name: Copy files
+  hosts: all
+  become: true
+  tasks:
+    - name: Copy a local file to the host
+      copy:
+        src: /data/file1
+        dest: /data/file2
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Copy Apache welcome page and reload httpd
+      copy:
+        src: index.html
+        dest: /var/www/html/index.html
+      notify: Reload httpd
+
+  handlers:
+    - name: Reload httpd
+      service:
+        name: httpd
+        state: reloaded
+
+- name: Create a directory
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure directory exists with owner/mode
+      file:
+        path: /files-1
+        state: directory
+        owner: root
+        mode: '0755'
+
+- name: Edit a file in place
+  hosts: all
+  become: true
+  tasks:
+    - name: Change Apache listen port 80 -> 443
+      replace:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen 80'
+        replace: 'Listen 443'
+      notify: Restart httpd
+
+  handlers:
+    - name: Restart httpd
+      service:
+        name: httpd
+        state: restarted
+
+- name: Set the message of the day
+  hosts: all
+  become: true
+  tasks:
+    - name: Write /etc/motd
+      copy:
+        dest: /etc/motd
+        content: |
+          ******************************************************
+          Authorized access only. Managed by Ansible.
+          ******************************************************
+        owner: root
+        group: root
+        mode: '0644'
+
+- name: Archive a directory
+  hosts: all
+  become: true
+  tasks:
+    - name: Compress /var/log into a gzip tarball
+      community.general.archive:
+        path: /var/log
+        dest: /tmp/log-backup.tgz
+        format: gz

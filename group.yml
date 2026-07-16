@@ -1,9 +1,0 @@
----
-- name: Create a group
-  hosts: all
-  become: true
-  tasks:
-    - name: Ensure the 'devops' group exists
-      group:
-        name: devops
-        state: present

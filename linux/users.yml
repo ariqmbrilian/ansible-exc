@@ -1,0 +1,19 @@
+---
+# Managing users and groups.
+
+- name: Manage groups and users
+  hosts: all
+  become: true
+  tasks:
+    - name: Ensure the 'devops' group exists
+      group:
+        name: devops
+        state: present
+
+    - name: Ensure the 'devops' user exists
+      user:
+        name: devops
+        groups: wheel        # sudo-capable group; use 'sudo' on Debian/Ubuntu
+        shell: /bin/bash
+        create_home: true
+        state: present

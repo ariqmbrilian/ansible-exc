@@ -1,4 +1,6 @@
-- hosts: non-k8s
+---
+- name: Install Docker CE and docker-compose on Ubuntu
+  hosts: non-k8s
   become: yes
   gather_facts: false
   tasks:
